@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+    <style>
+      #users {
+        display: flex;
+        justify-content: space-between;
+        flex-wrap: wrap;
+      }
+      #users > .card {
+        flex-grow: 1;
+      }
+      #divele {
+        background-color: antiquewhite;
+      }
+    </style>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+  </head>
+  <body>
+    <div id="divele">GitHub USERS</div>
+    <div id="users">
+      <!-- <img class="card-img-top" src="..." alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">Card title</h5>
+          <p class="card-text">
+            Some quick example text to build on the card title and make up the
+            bulk of the card's content.
+          </p>
+          <a href="#" class="btn btn-primary">Go somewhere</a>
+        </div>
+      </div> -->
+    </div>
+
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-aFq/bzH65dt+w6FI2ooMVUpc+21e0SRygnTpmBvdBgSdnuTN7QbdgL+OapgHtvPp"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-qKXV1j0HvMUeCBQ+QVp7JcfGl760yU08IQ+GpUo5hlbpg51QRiuqHAJz8+BrxE/N"
+      crossorigin="anonymous"
+    ></script>
+    <script>
+      //First fetch the API
+      const API_URL = "https://api.github.com/users";
+      const gitHubUsers = async (API_URL) => {
+        const response = await fetch(API_URL);
+        const jsonData = await response.json();
+        return jsonData;
+      };
+      //add it to dom
+      const addCardToDom = (user) => {
+        user.forEach((users) => {
+          const newEle = document.createElement("div");
+          newEle.classList.add("card");
+          newEle.style.width = "18rem";
+          newEle.innerHTML = `<img class="card-img-top" src=${users.avatar_url} alt="Card image cap" />
+        <div class="card-body">
+          <h5 class="card-title">${users.login}</h5>
+          <a href=${users.html_url}  class="btn btn-primary">Go somewhere</a>
+        </div>
+        `;
+          document.querySelector("#users").appendChild(newEle);
+        });
+      };
+
+      //get the json data
+      const init = async () => {
+        const users = await gitHubUsers(API_URL);
+        // console.log(users);
+        addCardToDom(users);
+      };
+      init();
+    </script>
+  </body>
+</html>
